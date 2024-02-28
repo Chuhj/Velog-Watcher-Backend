@@ -39,10 +39,14 @@ app.post('/posts', async (req, res) => {
 
     res.send(sortedRecentFeedItems);
   } catch (error) {
-    console.log('Error:', error);
+    console.log('/posts error:', error);
     res.status(500).send({ error: 'Internal Server Error' });
   }
 });
+
+function sortByRecent(items) {
+  return items.sort((a, b) => Date.parse(b?.isoDate) - Date.parse(a?.isoDate));
+}
 
 async function getFollowings(username) {
   const browser = await puppeteer.launch();
@@ -61,7 +65,7 @@ async function getFollowings(username) {
 
     return followings;
   } catch (error) {
-    console.log(error);
+    console.log(`getFollowings() error: ${error}`);
     throw error;
   } finally {
     await browser.close();
@@ -75,8 +79,8 @@ async function fetchAllRssFeedItems(urls) {
     );
     return results.flat();
   } catch (error) {
-    console.log(error);
-    return [];
+    console.log(`fetchAllRssFeedItems() error: ${error}`);
+    throw error;
   }
 }
 
@@ -95,13 +99,10 @@ async function fetchRssFeedItems(url) {
 
     return feedItems;
   } catch (error) {
-    console.log(error);
-    return [];
+    console.log(`fetchRssFeedItems() 에러: ${error}`);
+    throw error;
   }
 }
 
-function sortByRecent(items) {
-  return items.sort((a, b) => Date.parse(b?.isoDate) - Date.parse(a?.isoDate));
-}
 
 app.listen(port, () => console.log(`listening at ${port}`));
