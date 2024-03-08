@@ -92,6 +92,7 @@ async function fetchRssFeedItems(url) {
       return {
         feedTitle: rssFeed.title,
         profileImage: rssFeed.image.url,
+        title: item.title,
         isoDate: item.isoDate,
         link: item.link,
       };
