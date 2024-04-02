@@ -6,6 +6,7 @@
   "author": "Chuhj <chj9574@naver.com>",
   "license": "MIT",
   "scripts": {
+    "start": "node app.js",
     "dev": "nodemon app.js"
   },
   "dependencies": {
