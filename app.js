@@ -1,17 +1,11 @@
 import express from 'express';
 import Parser from 'rss-parser';
-import cors from 'cors';
 import puppeteer from 'puppeteer';
 
 const port = process.env.PORT || 3000;
 const app = express();
 const parser = new Parser();
 
-app.use(
-  cors({
-    origin: 'https://velog.io',
-  })
-);
 app.use(express.json());
 
 app.post('/posts', async (req, res) => {

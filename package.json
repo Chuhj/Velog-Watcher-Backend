@@ -9,7 +9,6 @@
     "dev": "nodemon app.js"
   },
   "dependencies": {
-    "cors": "^2.8.5",
     "express": "^4.18.2",
     "puppeteer": "^22.3.0",
     "rss-parser": "^3.13.0"
