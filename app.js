@@ -8,6 +8,8 @@ const parser = new Parser();
 
 app.use(express.json());
 
+let browser;
+
 app.post('/posts', async (req, res) => {
   try {
     const { username } = req.body;
@@ -43,9 +45,12 @@ function sortByRecent(items) {
 }
 
 async function getFollowings(username) {
-  const browser = await puppeteer.launch({
-    executablePath: '/usr/bin/chromium-browser',
-  });
+  if (!browser) {
+    browser = await puppeteer.launch({
+      executablePath: '/usr/bin/chromium-browser',
+      args: ['--no-sandbox'],
+    });
+  }
   const page = await browser.newPage();
 
   try {
@@ -64,7 +69,7 @@ async function getFollowings(username) {
     console.log(`getFollowings() error: ${error}`);
     throw error;
   } finally {
-    await browser.close();
+    await page.close();
   }
 }
 
@@ -100,6 +105,5 @@ async function fetchRssFeedItems(url) {
     throw error;
   }
 }
-
 
 app.listen(port, () => console.log(`listening at ${port}`));
